@@ -1,7 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "hardware.h"
+//#include "hardware.h"
+#include "timer.h"
 
+int main()
+{
+    long int t = getTime();
+    printf("%ld\n", t);
+
+}
+
+/* 
 int main(){
     int error = hardware_init();
     if(error != 0){
@@ -28,3 +37,4 @@ int main(){
         }
     }
 }
+ */
