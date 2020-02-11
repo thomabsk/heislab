@@ -1,7 +1,7 @@
-int floor;
+extern int floor;
 
 
-int calibrate();
+void calibrate();
 int getCurrentFloor();
 int changeFloor();
 int emergencyStop();

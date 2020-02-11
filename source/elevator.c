@@ -4,7 +4,7 @@
 
 int floor = -1;
 
-int calibrate()
+void calibrate()
 {
     while(floor == -1){
         if (hardware_read_floor_sensor(1)){
