@@ -14,7 +14,7 @@ int main()
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    calibrate();
+    elevator_calibrate();
 
 
 }
