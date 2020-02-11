@@ -1,4 +1,7 @@
-extern int floor;
+
+
+
+extern int currentFloor;
 
 
 void calibrate();

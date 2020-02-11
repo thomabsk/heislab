@@ -2,15 +2,15 @@
 #include "hardware.h"
 #include "elevator.h"
 
-int floor = -1;
+int currentFloor = -1;
 
 void calibrate()
 {
-    while(floor == -1){
+    while(currentFloor == -1){
         if (hardware_read_floor_sensor(1)){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-            floor = 1;
-            printf("%d", floor);
+            currentFloor = 1;
+            printf("%d", currentFloor);
             break;
         }
         else{
