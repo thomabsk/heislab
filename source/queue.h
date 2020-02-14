@@ -3,7 +3,8 @@
  * @brief Library that adds a queue for use with the elevator
  *
  */
-
+#ifndef QUEUE_H
+#define QUEUE_H
 /**
  * @brief Clears the whole queue 
 */
@@ -21,3 +22,5 @@ int queue_add_floor(int floor,  order_type type);
 int queue_next_in_queue(int current_floor, direction direction);
 
 int queue_is_floor_ordered(int floor);
+
+#endif
