@@ -4,8 +4,9 @@
 #include "hardware.h"
 #include "timer.h"
 #include "elevator.h"
-#include "control.h"
+#include "queue.h"
 #include "utilities.h"
+
 
 static void clear_all_order_lights(){
     HardwareOrder order_types[3] = {
