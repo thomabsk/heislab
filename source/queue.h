@@ -29,14 +29,30 @@ void queue_clear_floor(int floor);
  * @param floor The floor the order corresponds to
  * @param type Type of order.
  * 
- * @return Returns 0 if floor is sucsesfully added, 1 if it 
+ * @return Returns 0 if floor is sucsesfully added, 1 if it fails.
  */
 int queue_add_floor(int floor,  order_type type);
 
-
+/**
+ * @brief Finds and return next floor based on @p current_floor and @p direction of the elevator
+ * 
+ * @param current_floor The current floor of the elevator
+ * @param direction The direction of the elevator
+ * 
+ * @return Returns an int corresponding to next floor in queue. 
+ * Return -1 if there are no more orders in the given @p direction
+ */
 int queue_next_in_queue(int current_floor, direction direction);
 
-int queue_is_floor_ordered(int floor);
+/**
+ * @brief Check if the @p floor is ordered given the @p direction of the elevator
+ * 
+ * @param floor The floor you want to check.
+ * @param direction The direction of the elevator
+ * 
+ * @return Return one if the floor is orderd, zero otherwise
+ */
+int queue_is_floor_ordered(int floor, direction direction);
 
 void queue_print_queue();
 
