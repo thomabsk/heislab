@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "hardware.h"
+#include "control.h"
 #include "timer.h"
 #include "elevator.h"
 #include "queue.h"
 #include "utilities.h"
+
 
 
 static void clear_all_order_lights(){
@@ -42,6 +44,10 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
     clear_all_order_lights();
+    state_machine();
+
+    /*
+    clear_all_order_lights();
     elevator_calibrate();
     while(1){
         if(hardware_read_stop_signal()){
@@ -53,7 +59,8 @@ int main(){
     }
     elevator_wait(5);
     while(1){
-        poll_buttons();
+        control_poll_buttons();
     }
+    */
     return 0;
 }

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "timer.h"
 
-
+time_t timer_start = 0;
+int timer_length = 0;
 
 
 void timer_set(int wait_time){

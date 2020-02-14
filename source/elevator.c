@@ -65,4 +65,5 @@ int elevator_change_floor(int goal_floor){
         hardware_command_movement(HARDWARE_MOVEMENT_UP);
         return 1;
     }
+    return 0;
 }

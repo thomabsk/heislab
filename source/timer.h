@@ -5,8 +5,8 @@
  */
 #include <time.h>
 
-static int timer_length;
-static time_t timer_start;
+extern int timer_length;
+extern time_t timer_start;
 
 
 /**
