@@ -1,3 +1,5 @@
+#ifndef UTILITIES_H
+#define UTILITIES_H
 #define NUMBER_OF_FLOORS 4
 
 typedef enum {
@@ -10,3 +12,5 @@ typedef enum {
     UP,
     DOWN,
 } direction;
+
+#endif
