@@ -7,7 +7,6 @@
 #define QUEUE_H
 #include "utilities.h"
 #include "hardware.h"
-
 #include <stdio.h>
 
 

@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include "hardware.h"
 #include "elevator.h"
-#include "timer.h"
+
 
 int current_floor = -1;
 
@@ -27,14 +25,24 @@ int elevator_get_current_floor(){
     return current_floor;
 }
  
-void elevator_wait(int wait_time)
-{
+void elevator_wait(int wait_time){
     hardware_command_door_open(1);
-    timer_set_timer(wait_time);
+    timer_set(wait_time);
+    while(1){
+        if(hardware_read_obstruction_signal()){
+            timer_reset();
+            timer_set(3);
+        }
+        else{
+            if(timer_get()){
+                break;
+            }
+        }
+    }
     hardware_command_door_open(0);
 }
 
-int elevator_emergency_stop(){
+void elevator_emergency_stop(){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 }
 
@@ -46,6 +54,8 @@ int elevator_change_floor(int goal_floor){
     }
     if(goal_floor == current_floor){
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+        hardware_command_floor_indicator_on(current_floor);
+        return 0;
     }
     else if(goal_floor < current_floor){
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
