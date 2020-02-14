@@ -91,6 +91,7 @@ int queue_is_floor_ordered(int floor, direction direction) {
    if (direction == DOWN) {
        return (QUEUE_DOWN[floor - 1] || QUEUE_INSIDE[floor - 1]);
    }
+   return 0;
 }
 
 
