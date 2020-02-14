@@ -5,29 +5,6 @@
 #include "timer.h"
 #include "elevator.h"
 
-// int main()
-// {
-    
-    
-//     printf("STARTTIMER\n");
-//     elevator_wait(3);
-//     printf("SLUTTTIMER\n");
-    
-    
-    
-//     int error = hardware_init();
-//     if(error != 0){
-//         fprintf(stderr, "Unable to initialize hardware\n");
-//         exit(1);
-//     }
-//     printf("=== Example Program ===\n");
-//     printf("Press the stop button on the elevator panel to exit\n");
-
-//     elevator_calibrate();
-
-
-// }
-
 static void clear_all_order_lights(){
     HardwareOrder order_types[3] = {
         HARDWARE_ORDER_UP,

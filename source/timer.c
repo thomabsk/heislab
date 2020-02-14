@@ -1,18 +1,21 @@
 #include <stdio.h>
-#include <time.h>
 #include "timer.h"
 
 
-int timer_get_time(){
-    time_t currentTime;
-    currentTime = time(NULL);
-    return currentTime;
+
+
+void timer_set(int wait_time){
+    timer_length = wait_time;
+    time_t current_time = time(NULL);
+    timer_start = current_time;
 }
 
-int timer_set_timer(long int wait_time){
-    time_t start_time = timer_get_time();
-    while((timer_get_time()-start_time) < wait_time){
-        continue;
-    }
-    return 0;
+int timer_get(){
+    time_t current_time = time(NULL);
+    return((current_time - timer_start) > timer_length);
+}
+
+void timer_reset(){
+    timer_start = 0;
+    timer_length = 0;
 }

@@ -1,5 +1,19 @@
+/**
+ * @file
+ * @brief Library that adds a queue for use with the elevator
+ *
+ */
+
+/**
+ * @brief Clears the whole queue 
+*/
 void queue_clear_queue();
 
+/**
+ * @brief Clears the desired floor of all orders
+ * 
+ * @param floor The floor you will  
+*/
 void queue_clear_floor(int floor);
 
 int queue_add_floor(int floor,  order_type type);
