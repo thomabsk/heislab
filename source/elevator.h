@@ -42,7 +42,8 @@ void elevator_emergency_stop();
 /**
  * @brief Makes the elevator stop to pick up passengers 
 */
-void elevator_wait();
+int elevator_wait(int wait_time);
 
+int elevator_currently_at_a_floor();
 
 #endif

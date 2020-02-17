@@ -6,7 +6,7 @@
 
 #ifndef UTILITIES_H
 #define UTILITIES_H
-#define NUMBER_OF_FLOORS 4
+#define NUMBER_OF_FLOORS HARDWARE_NUMBER_OF_FLOORS
 
 /**
  * @brief Order type used in @c queue_add_floor

@@ -13,6 +13,8 @@ extern time_t timer_start;
  * @brief Starts the timer
  * 
  * @param wait_time The amount to count down
+ * 
+ * @warning Remember to reset the timer before setting it!
 */
 void timer_set(int wait_time);
 

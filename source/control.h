@@ -16,6 +16,7 @@ typedef enum{
     INITIALIZE,
     IDLE,
     TAKING_ORDER,
+    WAITING
 } state;
 
 extern state ELEVATOR_STATE;

@@ -45,22 +45,5 @@ int main(){
     printf("Press the stop button on the elevator panel to exit\n");
     clear_all_order_lights();
     state_machine();
-
-    /*
-    clear_all_order_lights();
-    elevator_calibrate();
-    while(1){
-        if(hardware_read_stop_signal()){
-            elevator_emergency_stop();
-        }
-        else if(!elevator_change_floor(2)){
-            break;
-        }
-    }
-    elevator_wait(5);
-    while(1){
-        control_poll_buttons();
-    }
-    */
     return 0;
 }
