@@ -13,18 +13,18 @@ void queue_clear_queue() {
         QUEUE_DOWN[i] = 0;
         QUEUE_INSIDE[i] = 0;
 
-        hardware_command_order_light(i + 1, HARDWARE_ORDER_UP, 0);
-        hardware_command_order_light(i + 1, HARDWARE_ORDER_DOWN, 0);
-        hardware_command_order_light(i + 1, HARDWARE_ORDER_INSIDE, 0);
+        hardware_command_order_light(i, HARDWARE_ORDER_UP, 0);
+        hardware_command_order_light(i, HARDWARE_ORDER_DOWN, 0);
+        hardware_command_order_light(i, HARDWARE_ORDER_INSIDE, 0);
     }
 }
 
 
 void queue_clear_floor(int floor) {
    
-    QUEUE_UP[floor - 1] = 0;
-    QUEUE_DOWN[floor - 1] = 0;
-    QUEUE_INSIDE[floor - 1] = 0;
+    QUEUE_UP[floor] = 0;
+    QUEUE_DOWN[floor] = 0;
+    QUEUE_INSIDE[floor] = 0;
 
     hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
     hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
@@ -37,17 +37,17 @@ int queue_add_floor(int floor, order_type type) {
     switch (type)
     {
         case ORDER_UP:
-            QUEUE_UP[floor - 1] = 1;
+            QUEUE_UP[floor] = 1;
             hardware_command_order_light(floor, HARDWARE_ORDER_UP, 1);
             break;
         
         case ORDER_DOWN:
-            QUEUE_DOWN[floor - 1] = 1;
+            QUEUE_DOWN[floor = 1;
             hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 1);
             break;
         
         case ORDER_INSIDE:
-            QUEUE_INSIDE[floor - 1] = 1;
+            QUEUE_INSIDE[floor] = 1;
             hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 1);
             break;
 
@@ -71,9 +71,9 @@ int queue_next_in_queue(int current_floor, direction direction) {
     }
 
     if (direction == DOWN) {
-         for(int i = current_floor; i <= 0; i-- ) {
+         for(int i = current_floor; i >= 0; i-- ) {
             if (QUEUE_DOWN[i] == 1) {
-                return i+1;
+                return i;
             }
         }
     }
@@ -85,11 +85,11 @@ int queue_next_in_queue(int current_floor, direction direction) {
 int queue_is_floor_ordered(int floor, direction direction) {
 
    if (direction == UP) {
-       return (QUEUE_UP[floor - 1] || QUEUE_INSIDE[floor - 1]);
+       return (QUEUE_UP[floor] || QUEUE_INSIDE[floor]);
    }
 
    if (direction == DOWN) {
-       return (QUEUE_DOWN[floor - 1] || QUEUE_INSIDE[floor - 1]);
+       return (QUEUE_DOWN[floor] || QUEUE_INSIDE[floor]);
    }
    return 0;
 }
