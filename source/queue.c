@@ -42,7 +42,7 @@ int queue_add_floor(int floor, order_type type) {
             break;
         
         case ORDER_DOWN:
-            QUEUE_DOWN[floor = 1;
+            QUEUE_DOWN[floor] = 1;
             hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 1);
             break;
         
@@ -65,7 +65,7 @@ int queue_next_in_queue(int current_floor, direction direction) {
     if (direction == UP) {
         for(int i = current_floor; i < NUMBER_OF_FLOORS; i++ ) {
             if (QUEUE_UP[i] == 1) {
-                return i+1;
+                return i;
             }
         }
     }

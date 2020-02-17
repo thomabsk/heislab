@@ -1,17 +1,18 @@
 #include "control.h"
 
 state ELEVATOR_STATE = INITIALIZE;
+direction current_direction = UP;
 
 void control_poll_buttons(){
     for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
         if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
-                hardware_command_order_light(f,HARDWARE_ORDER_INSIDE,1);
+            queue_add_floor(f,ORDER_INSIDE);
          }
         if(hardware_read_order(f, HARDWARE_ORDER_UP)){
-             hardware_command_order_light(f, HARDWARE_ORDER_UP, 1);
+            queue_add_floor(f, ORDER_UP);
             }
         if(hardware_read_order(f,HARDWARE_ORDER_DOWN)){
-                hardware_command_order_light(f, HARDWARE_ORDER_DOWN, 1);
+            queue_add_floor(f, ORDER_DOWN);
         }
     }
 }
@@ -28,9 +29,27 @@ void state_machine(){
             case STOP:
                 break;
             case IDLE:
-                elevator_change_floor(2);
+                control_poll_buttons();
+                if(queue_next_in_queue(elevator_get_current_floor(), current_direction) == -1){
+
+                    break;
+                }
+                ELEVATOR_STATE = TAKING_ORDER;
                 break;
             case TAKING_ORDER:
+                if(elevator_change_floor(queue_next_in_queue(elevator_get_current_floor(), current_direction))){
+                    printf("%d", queue_next_in_queue(elevator_get_current_floor(), current_direction));
+                    printf("\n");
+                    break;
+                }
+                else{
+                    ELEVATOR_STATE = IDLE;
+                }
+                if(!elevator_change_floor(queue_next_in_queue(elevator_get_current_floor(), current_direction))){
+                    queue_clear_floor(elevator_get_current_floor());
+                    printf("FINISH\n");
+                }
+                
                 break;
     }
     }

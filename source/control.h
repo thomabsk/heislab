@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include "hardware.h"
 #include "elevator.h"
+#include "queue.h"
+#include "utilities.h"
 
 #ifndef CONTROL_H
 #define CONTROL_H
 
-
+extern direction current_direction;
 
 
 typedef enum{
