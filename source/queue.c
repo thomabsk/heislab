@@ -63,24 +63,24 @@ int queue_add_floor(int floor, order_type type) {
 int queue_next_in_queue(int current_floor, direction direction) {
 
     if (direction == UP) {
-        for(int i = current_floor; i < NUMBER_OF_FLOORS - 1; i++ ) {
-            if (QUEUE_UP[i] == 1) {
+        for(int i = current_floor + 1; i < NUMBER_OF_FLOORS; i++ ) {
+            if (QUEUE_UP[i] == 1 || QUEUE_INSIDE[i] == 1) {
                 return i;
             }
         }
-        if (QUEUE_DOWN[3] == 1) {       
-            return 3;                       //cheking if there are orders downwards in floor 3.
+        if (QUEUE_DOWN[NUMBER_OF_FLOORS -1] == 1) {       
+            return 3;                       //cheking if there are orders downwards in the highest floor.
         }
     }
 
     if (direction == DOWN) {
-         for(int i = current_floor; i > 0; i-- ) {
-            if (QUEUE_DOWN[i] == 1) {
+         for(int i = current_floor - 1; i >= 0; i-- ) {
+            if (QUEUE_DOWN[i] == 1 || QUEUE_INSIDE[i] == 1) {
                 return i;
             }
         }
         if (QUEUE_UP[0] == 1) {
-            return 0;                       //cheking if there are orders upwards in floor 0.
+            return 0;                       //cheking if there are orders upwards in the lowest floor.
         }
     }
 
