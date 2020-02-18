@@ -2,7 +2,6 @@
 
 
 int current_floor = -1;
-int between_floors = 1;
 
 
 void elevator_calibrate()
