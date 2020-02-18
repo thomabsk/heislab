@@ -114,7 +114,7 @@ int elevator_change_floor(int goal_floor, direction dir){
         }
     }
     
-    if(goal_floor == current_floor && between_floors_inside == 1){
+    if((goal_floor == current_floor) && (between_floors_inside == 1)){
         if(dir == UP){
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
             return 1;

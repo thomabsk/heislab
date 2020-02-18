@@ -8,7 +8,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-extern direction current_direction;
+//extern direction current_direction;
 
 
 typedef enum{
@@ -22,7 +22,7 @@ typedef enum{
 extern state ELEVATOR_STATE;
 
 void state_machine();
-void calculate_next_floor(int *next_floor);
+void calculate_next_floor(int *next_floor, direction *current_direction);
 void control_poll_buttons();
 
 #endif
