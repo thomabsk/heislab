@@ -95,7 +95,7 @@ void state_machine(){
                 control_poll_buttons();
                 
 
-                if(elevator_change_floor(next_floor)){
+                if(elevator_change_floor(next_floor, current_direction)){
                     ELEVATOR_STATE = IDLE;
                 }
                 else{

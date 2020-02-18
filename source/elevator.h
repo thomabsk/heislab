@@ -7,11 +7,13 @@
 #include <stdio.h>
 #include "hardware.h"
 #include "timer.h"
+#include "utilities.h"
 
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
 extern int current_floor;
+extern int between_floors;
 
 /**
  * @brief Calibrates the hardware, by making it go to the first floor
@@ -32,7 +34,7 @@ int elevator_get_current_floor();
  * 
  * @return Returns 1 if the elevator is still moving, 0 if stopped at desired floor.
 */
-int elevator_change_floor(int goal_floor);
+int elevator_change_floor(int goal_floor, direction dir);
 
 /**
  * @brief Stops the elevator 

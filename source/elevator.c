@@ -2,6 +2,7 @@
 
 
 int current_floor = -1;
+int between_floors = 1;
 
 
 void elevator_calibrate()
@@ -57,16 +58,28 @@ int elevator_currently_at_a_floor(){
     return at_floor;
 }
 
-int elevator_change_floor(int goal_floor){
+int elevator_change_floor(int goal_floor, direction dir){
+    int between_floors_inside = 1;
     for(unsigned int i = 0; i<HARDWARE_NUMBER_OF_FLOORS; i++){
         if(hardware_read_floor_sensor(i)){
             current_floor = i;
             hardware_command_floor_indicator_on(i);
+            between_floors_inside = 0;
         }
     }
-    if(goal_floor == current_floor){
+    
+    if(goal_floor == current_floor && between_floors_inside == 1){
+        if(dir == UP){
+            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+            return 1;
+        }
+        else if(dir == DOWN){
+            hardware_command_movement(HARDWARE_MOVEMENT_UP);
+            return 1;
+        }
+    }
+    else if(goal_floor == current_floor){
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        hardware_command_floor_indicator_on(current_floor);
         return 0;
     }
     else if(goal_floor < current_floor){
