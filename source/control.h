@@ -22,7 +22,7 @@ typedef enum{
 extern state ELEVATOR_STATE;
 
 void state_machine();
-int calculate_next_floor();
+void calculate_next_floor(int *next_floor);
 void control_poll_buttons();
 
 #endif

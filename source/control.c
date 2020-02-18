@@ -17,6 +17,20 @@ void control_poll_buttons(){
     }
 }
 
+void calculate_next_floor(int *next_floor){
+    *next_floor = queue_next_in_queue(elevator_get_current_floor(), current_direction);
+                if(*next_floor == -1)
+                {
+                    if(current_direction == UP){
+                        current_direction = DOWN;
+                        *next_floor = queue_next_in_queue(HARDWARE_NUMBER_OF_FLOORS-1, current_direction);
+                    } 
+                    else if(current_direction == DOWN){
+                        current_direction = UP;
+                        *next_floor = queue_next_in_queue(0, current_direction);
+                    }
+                }
+}
 
 void state_machine(){
     int next_floor = 0;
@@ -24,71 +38,49 @@ void state_machine(){
         switch(ELEVATOR_STATE)
         {
             case INITIALIZE:
+                
                 elevator_calibrate();
                 queue_clear_queue();
                 ELEVATOR_STATE = IDLE;
+                printf("Current state: IDLE\n");
                 break;
             case STOP:
-                elevator_emergency_stop();
                 queue_clear_queue();
-                if(hardware_read_stop_signal()){
-                    hardware_command_stop_light(1);
-                    if(elevator_currently_at_a_floor()){
-                        hardware_command_door_open(1);
-                        timer_reset();
-                        timer_set(3);
-                    }
+                elevator_emergency_stop();
+                if(elevator_currently_at_a_floor()){
+                    printf("Current state: WAITING\n");
+                    ELEVATOR_STATE = WAITING;
                     break;
                 }
-                else if(!elevator_currently_at_a_floor()){
-                    hardware_command_stop_light(0);
-                    queue_clear_queue();
-                    timer_reset();
-                    ELEVATOR_STATE = IDLE;
-                }
-                if(!hardware_read_stop_signal()){
-                    hardware_command_stop_light(0);
-                }
-                if(hardware_read_obstruction_signal()){
-                    timer_reset();
-                    timer_set(3);
-                }
-                if(elevator_currently_at_a_floor() && timer_get()){
-                    hardware_command_stop_light(0);
-                    hardware_command_door_open(0);
-                    queue_clear_queue();
-                    timer_reset();
-                    ELEVATOR_STATE = IDLE;
-                }
+                printf("Current state: IDLE\n");
+                ELEVATOR_STATE = IDLE;
                 break;
+                /*
+                queue_clear_queue();
+                elevator_emergency_stop();
+                printf("Current state: IDLE\n");
+                ELEVATOR_STATE = IDLE;
+                break;
+                */
+                
             case IDLE:
+                
                 if(hardware_read_stop_signal()){
+                    printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
                 control_poll_buttons();
-                
-                //if((elevator_get_current_floor() == 0) && (current_direction == DOWN)) current_direction = UP;
-                //if((elevator_get_current_floor() == HARDWARE_NUMBER_OF_FLOORS -1 ) && (current_direction == UP)) current_direction = DOWN;
-                next_floor = queue_next_in_queue(elevator_get_current_floor(), current_direction);
-                printf("%d\n", next_floor);
-                if(next_floor == -1)
-                {
-                    if(current_direction == UP){
-                        current_direction = DOWN;
-                        next_floor = queue_next_in_queue(HARDWARE_NUMBER_OF_FLOORS-1, current_direction);
-                    } 
-                    else if(current_direction == DOWN){
-                        current_direction = UP;
-                        next_floor = queue_next_in_queue(0, current_direction);
-                    }
-                }
+                calculate_next_floor(&next_floor);
                 if(!(next_floor == -1)){
+                    printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
                 }
                 break;
             case TAKING_ORDER:
+                
                 if(hardware_read_stop_signal()){
+                    printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
@@ -96,21 +88,25 @@ void state_machine(){
                 
 
                 if(elevator_change_floor(next_floor, current_direction)){
-                    ELEVATOR_STATE = IDLE;
+                    calculate_next_floor(&next_floor);
                 }
                 else{
+                    printf("Current state: WAITING\n");
                     ELEVATOR_STATE = WAITING;
                 }
 
                 break;
             case WAITING:
+                
                 control_poll_buttons();
                 if(hardware_read_stop_signal()){
+                    printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
                 queue_clear_floor(elevator_get_current_floor());
                 if(elevator_wait(3)){
+                    printf("Current state: IDLE\n");
                     ELEVATOR_STATE = IDLE;
                 }
                 break;

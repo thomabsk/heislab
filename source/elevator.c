@@ -45,6 +45,52 @@ int elevator_wait(int wait_time){
 
 void elevator_emergency_stop(){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    int tilstand = 1;
+    while(tilstand){
+        if(hardware_read_stop_signal()){
+            hardware_command_stop_light(1);
+            if(elevator_currently_at_a_floor()){
+                hardware_command_door_open(1);
+                timer_reset();
+                timer_set(3);
+            }
+        }
+        else{
+            hardware_command_stop_light(0);
+            return;
+        }
+
+
+
+
+        /*
+        if(hardware_read_stop_signal()){
+            hardware_command_stop_light(1);
+            if(elevator_currently_at_a_floor()){
+                hardware_command_door_open(1);
+                timer_reset();
+                timer_set(3);
+            }
+        }
+        
+        else{
+            hardware_command_stop_light(0);
+            if(hardware_read_obstruction_signal()){
+                timer_reset();
+                timer_set(3);
+            }
+            if(timer_get() && elevator_currently_at_a_floor()){
+                tilstand = 0;
+                timer_reset();
+                hardware_command_door_open(0);
+            }
+            else if(!elevator_currently_at_a_floor()){
+                timer_reset();
+                tilstand = 0;
+            }
+        }
+        */
+    }
 }
 
 int elevator_currently_at_a_floor(){
@@ -70,11 +116,11 @@ int elevator_change_floor(int goal_floor, direction dir){
     
     if(goal_floor == current_floor && between_floors_inside == 1){
         if(dir == UP){
-            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+            hardware_command_movement(HARDWARE_MOVEMENT_UP);
             return 1;
         }
         else if(dir == DOWN){
-            hardware_command_movement(HARDWARE_MOVEMENT_UP);
+            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
             return 1;
         }
     }
