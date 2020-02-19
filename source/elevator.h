@@ -32,6 +32,8 @@ int elevator_get_current_floor();
  * @param goal_floor The floor the elevator moves towards.
  * 
  * @return Returns 1 if the elevator is still moving, 0 if stopped at desired floor.
+ * 
+ * @warning @p goal_floor has to be a valid floor.
 */
 int elevator_change_floor(int goal_floor, direction dir);
 

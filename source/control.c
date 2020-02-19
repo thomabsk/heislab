@@ -37,6 +37,7 @@ void calculate_next_floor(int *next_floor, direction *current_direction){
 void state_machine(){
     int next_floor = 0;
     direction current_direction = UP;
+
     while(1){
         switch(ELEVATOR_STATE)
         {
@@ -72,6 +73,7 @@ void state_machine(){
                     printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
                 }
+                //printf("%d\n", current_direction);
                 break;
             case TAKING_ORDER:
                 
@@ -82,6 +84,7 @@ void state_machine(){
                 }
                 control_poll_buttons();
                 if(!(next_floor == -1)){
+
                     if(elevator_change_floor(next_floor, current_direction)){
                         calculate_next_floor(&next_floor, &current_direction);
                     }
