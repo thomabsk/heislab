@@ -40,13 +40,13 @@ void control_state_machine();
  * @param current_direction Pointer to the current direction the elevator is looking in
  * 
  */
-static void control_calculate_next_floor(int *next_floor, direction *current_direction);
+void control_calculate_next_floor(int *next_floor, direction *current_direction);
 
 /**
  * 
  * @brief Polls the buttons for input, adds to queue.
  * 
  */
-static void control_poll_buttons();
+void control_poll_buttons();
 
 #endif
