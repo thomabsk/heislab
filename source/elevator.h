@@ -12,7 +12,7 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-extern int current_floor;
+
 
 /**
  * @brief Calibrates the hardware, by making it go to the first floor.

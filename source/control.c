@@ -1,9 +1,9 @@
 #include "control.h"
 
 state ELEVATOR_STATE = INITIALIZE;
-//direction current_direction = UP;
 
-void control_poll_buttons(){
+
+static void control_poll_buttons(){
     for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
         if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
             queue_add_floor(f,ORDER_INSIDE);
@@ -17,7 +17,7 @@ void control_poll_buttons(){
     }
 }
 
-void calculate_next_floor(int *next_floor, direction *current_direction){
+static void control_calculate_next_floor(int *next_floor, direction *current_direction){
     *next_floor = queue_next_in_queue(elevator_get_current_floor(), *current_direction);
     
     if(*next_floor == -1)
@@ -34,7 +34,7 @@ void calculate_next_floor(int *next_floor, direction *current_direction){
     }
 }
 
-void state_machine(){
+void control_state_machine(){
     int next_floor = 0;
     direction current_direction = UP;
 
@@ -42,7 +42,6 @@ void state_machine(){
         switch(ELEVATOR_STATE)
         {
             case INITIALIZE:
-                
                 elevator_calibrate();
                 queue_clear_queue();
                 ELEVATOR_STATE = IDLE;
@@ -68,12 +67,11 @@ void state_machine(){
                     break;
                 }
                 control_poll_buttons();
-                calculate_next_floor(&next_floor, &current_direction);
+                control_calculate_next_floor(&next_floor, &current_direction);
                 if(!(next_floor == -1)){
                     printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
                 }
-                //printf("%d\n", current_direction);
                 break;
             case TAKING_ORDER:
                 
@@ -86,14 +84,14 @@ void state_machine(){
                 if(!(next_floor == -1)){
 
                     if(elevator_change_floor(next_floor, current_direction)){
-                        calculate_next_floor(&next_floor, &current_direction);
+                        control_calculate_next_floor(&next_floor, &current_direction);
                     }
                     else{
                        printf("Current state: WAITING\n");
                        ELEVATOR_STATE = WAITING;
                     }
                 }
-                calculate_next_floor(&next_floor, &current_direction);
+                control_calculate_next_floor(&next_floor, &current_direction);
                 break;
             case WAITING:
                 

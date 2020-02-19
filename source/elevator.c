@@ -85,7 +85,6 @@ int elevator_change_floor(int goal_floor, direction dir){
 
     if((goal_floor == current_floor) && (between_floors == 1)){
         if(last_dir == UP){
-            printf("GOING UP\n");
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
             return 1;
         }

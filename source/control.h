@@ -8,7 +8,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-//extern direction current_direction;
+
 
 /**
  * @brief State used in @c state_machine
@@ -22,7 +22,7 @@ typedef enum{
     WAITING
 } state;
 
-extern state ELEVATOR_STATE;
+
 
 
 /**
@@ -30,23 +30,23 @@ extern state ELEVATOR_STATE;
  * 
  * @warning Never returns, is supposed to keep running until terminated
  */
-void state_machine();
+void control_state_machine();
 
 /**
  * @brief Calculates which floor the elevator should go to
  * 
  * @param next_floor Pointer to the variable which saves the next floor
  * 
- * @param curren_direction Pointer to the current direction the elevator is looking in
+ * @param current_direction Pointer to the current direction the elevator is looking in
  * 
  */
-void calculate_next_floor(int *next_floor, direction *current_direction);
+static void control_calculate_next_floor(int *next_floor, direction *current_direction);
 
 /**
  * 
  * @brief Polls the buttons for input, adds to queue.
  * 
  */
-void control_poll_buttons();
+static void control_poll_buttons();
 
 #endif

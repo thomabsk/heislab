@@ -5,7 +5,7 @@
  */
 #include <time.h>
 
-extern int timer_length;
+
 extern time_t timer_start;
 
 
