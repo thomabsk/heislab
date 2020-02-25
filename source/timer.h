@@ -5,12 +5,8 @@
  */
 #include <time.h>
 
-
-extern time_t timer_start;
-
-
 /**
- * @brief Starts the timer
+ * @brief Starts the timer if it is not active.
  * 
  * @param wait_time The amount to count down
  * 

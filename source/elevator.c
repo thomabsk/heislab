@@ -1,13 +1,17 @@
 #include "elevator.h"
 
 
-int current_floor = -1;
-direction last_dir = UP;
+static int current_floor = -1;
+
 
 void elevator_calibrate()
 {
     while(current_floor == -1)
     {
+        //for(int i = 0, i < NUMBER_OF_FLOORS-1; i++)
+        //{
+
+        //}
         if (hardware_read_floor_sensor(0))
         {
         	hardware_command_movement(HARDWARE_MOVEMENT_STOP);
@@ -30,15 +34,13 @@ int elevator_get_current_floor()
 int elevator_wait(int wait_time)
 {
     hardware_command_door_open(1);
-    if(timer_start == 0){
-        timer_set(wait_time);
-    } 
+    timer_set(wait_time);
     if(hardware_read_obstruction_signal())
     {
         timer_reset();
         return 0;
     }
-    if(timer_get())
+    else if(timer_get())
     {
         timer_reset();
         hardware_command_door_open(0);
@@ -50,7 +52,13 @@ int elevator_wait(int wait_time)
     }
 }
 
-void elevator_emergency_stop(){
+int elevator_check_emergency_stop()
+{
+    return hardware_read_stop_signal();
+}
+
+void elevator_emergency_stop()
+{
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     while(1)
     {
@@ -72,21 +80,26 @@ void elevator_emergency_stop(){
     }
 }
 
-int elevator_currently_at_a_floor(){
+int elevator_currently_at_a_floor()
+{
     int bool_at_floor = 0;
     for(unsigned int i = 0; i<HARDWARE_NUMBER_OF_FLOORS; i++)
     {
-        if(hardware_read_floor_sensor(i)){
+        if(hardware_read_floor_sensor(i))
+        {
             bool_at_floor = 1;
         }
     }
     return bool_at_floor;
 }
 
-int elevator_change_floor(int goal_floor){
+int elevator_change_floor(int goal_floor)
+{
+    static Direction last_dir = UP;
+
     int bool_between_floors = 1;
 
-    for(unsigned int f = 0; f<HARDWARE_NUMBER_OF_FLOORS; f++)
+    for(unsigned int f = 0; f<HARDWARE_NUMBER_OF_FLOORS; f++) //Updates the current floor, and checks if between two floors.
     {
         if(hardware_read_floor_sensor(f))
         {
@@ -107,7 +120,7 @@ int elevator_change_floor(int goal_floor){
         {
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
             return 1;
-        }
+        } 
     }
     else if(goal_floor == current_floor)
     {

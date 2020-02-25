@@ -40,7 +40,7 @@ int elevator_change_floor(int goal_floor);
 /**
  * @brief Stops the elevator in emergency mode.
  * 
- * @warning Does not stop until stop button is released.
+ * @warning Does not return before stop button is released.
 */
 void elevator_emergency_stop();
 
@@ -57,5 +57,7 @@ int elevator_wait(int wait_time);
  * @return Returns 1 if at a floor, 0 otherwise.
  */
 int elevator_currently_at_a_floor();
+
+int elevator_check_emergency_stop();
 
 #endif

@@ -1,32 +1,19 @@
 #include "control.h"
 
-static void control_poll_buttons(){
-    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-        if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
-            queue_add_floor(f,ORDER_INSIDE);
-         }
-        if(hardware_read_order(f, HARDWARE_ORDER_UP)){
-            queue_add_floor(f, ORDER_UP);
-            }
-        if(hardware_read_order(f,HARDWARE_ORDER_DOWN)){
-            queue_add_floor(f, ORDER_DOWN);
-        }
-    }
-}
 
-static void control_calculate_next_floor(int *p_next_floor, Direction *p_current_direction){
-    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_current_direction);
+static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_direction){
+    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
     
     if(*p_next_floor == -1) //If nothing is found in one direction, look in the other
     {
-        if(*p_current_direction == UP){
-            *p_current_direction = DOWN;
-            *p_next_floor = queue_next_in_queue(HARDWARE_NUMBER_OF_FLOORS-1, *p_current_direction);
+        if(*p_travel_direction == UP){
+            *p_travel_direction = DOWN;
+            *p_next_floor = queue_next_in_queue(HARDWARE_NUMBER_OF_FLOORS-1, *p_travel_direction);
             
         } 
-        else if(*p_current_direction == DOWN){
-            *p_current_direction = UP;
-            *p_next_floor = queue_next_in_queue(0, *p_current_direction);
+        else if(*p_travel_direction == DOWN){
+            *p_travel_direction = UP;
+            *p_next_floor = queue_next_in_queue(0, *p_travel_direction);
 
         }
     }
@@ -36,7 +23,7 @@ void control_state_machine()
 {
     state ELEVATOR_STATE = INITIALIZE;
     int next_floor = 0;
-    Direction current_direction = UP;
+    Direction travel_direction = UP;
 
     while(1){
         switch(ELEVATOR_STATE)
@@ -65,14 +52,14 @@ void control_state_machine()
                 
             case IDLE:
                 
-                if(hardware_read_stop_signal())
+                if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-                control_poll_buttons();
-                control_calculate_next_floor(&next_floor, &current_direction);
+                queue_poll_buttons();
+                control_calculate_next_floor(&next_floor, &travel_direction);
                 if(!(next_floor == -1))
                 {
                     printf("Current state: TAKING_ORDER\n");
@@ -82,18 +69,18 @@ void control_state_machine()
 
             case TAKING_ORDER:
                 
-                if(hardware_read_stop_signal())
+                if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-                control_poll_buttons();
+                queue_poll_buttons();
                 if(!(next_floor == -1))
                 {
                     if(elevator_change_floor(next_floor))
                     {
-                        control_calculate_next_floor(&next_floor, &current_direction);
+                        control_calculate_next_floor(&next_floor, &travel_direction);
                     }
                     else
                     {
@@ -101,18 +88,19 @@ void control_state_machine()
                        ELEVATOR_STATE = WAITING;
                     }
                 }
-                control_calculate_next_floor(&next_floor, &current_direction); // Calculate again if between two floors, and stopping.
+                control_calculate_next_floor(&next_floor, &travel_direction); // Calculate again if between two floors, and stopping.
                 break;
 
             case WAITING:
                 
-                control_poll_buttons();
-                if(hardware_read_stop_signal())
+                if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
+                queue_poll_buttons();
+                
                 queue_clear_floor(elevator_get_current_floor());
                 if(elevator_wait(3))
                 {

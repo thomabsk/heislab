@@ -14,9 +14,9 @@
  */
 typedef enum {
     ORDER_UP,
-    ORDER_DOWN,
     ORDER_INSIDE,
-} OrderType;
+    ORDER_DOWN,
+} OrderType; //Bytte rekkefølge og legge til Utilities foran
 
 /**
  * @brief Direction type used in @c queue_next_in_queue 
