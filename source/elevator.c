@@ -27,9 +27,12 @@ int elevator_get_current_floor()
     return current_floor;
 }
  
-int elevator_wait(int wait_time){
+int elevator_wait(int wait_time)
+{
     hardware_command_door_open(1);
-    if(timer_start == 0) timer_set(wait_time);
+    if(timer_start == 0){
+        timer_set(wait_time);
+    } 
     if(hardware_read_obstruction_signal())
     {
         timer_reset();
@@ -49,8 +52,7 @@ int elevator_wait(int wait_time){
 
 void elevator_emergency_stop(){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    int tilstand = 1;
-    while(tilstand)
+    while(1)
     {
         if(hardware_read_stop_signal())
         {
@@ -71,30 +73,30 @@ void elevator_emergency_stop(){
 }
 
 int elevator_currently_at_a_floor(){
-    int at_floor = 0;
+    int bool_at_floor = 0;
     for(unsigned int i = 0; i<HARDWARE_NUMBER_OF_FLOORS; i++)
     {
         if(hardware_read_floor_sensor(i)){
-            at_floor = 1;
+            bool_at_floor = 1;
         }
     }
-    return at_floor;
+    return bool_at_floor;
 }
 
-int elevator_change_floor(int goal_floor, direction dir){
-    int between_floors = 1;
+int elevator_change_floor(int goal_floor){
+    int bool_between_floors = 1;
 
-    for(unsigned int i = 0; i<HARDWARE_NUMBER_OF_FLOORS; i++)
+    for(unsigned int f = 0; f<HARDWARE_NUMBER_OF_FLOORS; f++)
     {
-        if(hardware_read_floor_sensor(i))
+        if(hardware_read_floor_sensor(f))
         {
-            current_floor = i;
-            hardware_command_floor_indicator_on(i);
-            between_floors = 0;
+            current_floor = f;
+            hardware_command_floor_indicator_on(f);
+            bool_between_floors = 0;
         }
     }
 
-    if((goal_floor == current_floor) && (between_floors == 1))
+    if((goal_floor == current_floor) && (bool_between_floors == 1))
     {
         if(last_dir == UP)
         {
@@ -124,5 +126,5 @@ int elevator_change_floor(int goal_floor, direction dir){
         last_dir = UP;
         return 1;
     }
-    return 0;
+    return 1;
 }

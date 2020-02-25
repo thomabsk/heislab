@@ -35,17 +35,17 @@ int elevator_get_current_floor();
  * 
  * @warning @p goal_floor has to be a valid floor.
 */
-int elevator_change_floor(int goal_floor, direction dir);
+int elevator_change_floor(int goal_floor);
 
 /**
  * @brief Stops the elevator in emergency mode.
  * 
- * @warning Does not stop until stop precedure is finished.
+ * @warning Does not stop until stop button is released.
 */
 void elevator_emergency_stop();
 
 /**
- * @brief Makes the elevator stop to pick up passengers.
+ * @brief Makes the elevator stop to pick up passengers at a floor.
  * 
  * @return Returns 1 if the elevator is finished waiting, 0 otherwise.
 */

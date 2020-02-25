@@ -32,21 +32,4 @@ typedef enum{
  */
 void control_state_machine();
 
-/**
- * @brief Calculates which floor the elevator should go to
- * 
- * @param next_floor Pointer to the variable which saves the next floor
- * 
- * @param current_direction Pointer to the current direction the elevator is looking in
- * 
- */
-void control_calculate_next_floor(int *next_floor, direction *current_direction);
-
-/**
- * 
- * @brief Polls the buttons for input, adds to queue.
- * 
- */
-void control_poll_buttons();
-
 #endif
