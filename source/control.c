@@ -14,7 +14,7 @@ static void control_poll_buttons(){
     }
 }
 
-static void control_calculate_next_floor(int *p_next_floor, direction *p_current_direction){
+static void control_calculate_next_floor(int *p_next_floor, Direction *p_current_direction){
     *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_current_direction);
     
     if(*p_next_floor == -1) //If nothing is found in one direction, look in the other
