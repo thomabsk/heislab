@@ -17,7 +17,7 @@ void control_poll_buttons(){
     }
 }
 
-void control_calculate_next_floor(int *next_floor, direction *current_direction){
+void control_calculate_next_floor(int *next_floor, Direction *current_direction){
     *next_floor = queue_next_in_queue(elevator_get_current_floor(), *current_direction);
     
     if(*next_floor == -1) //If nothing is found in one direction, look in the other
@@ -38,7 +38,7 @@ void control_calculate_next_floor(int *next_floor, direction *current_direction)
 void control_state_machine()
 {
     int next_floor = 0;
-    direction current_direction = UP;
+    Direction current_direction = UP;
 
     while(1){
         switch(ELEVATOR_STATE)
