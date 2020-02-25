@@ -5,7 +5,7 @@ static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_
 
     *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
     if(*p_next_floor == -1){
-        *p_travel_direction = STILL;
+        *p_travel_direction = NONE;
         return;
     }
     else if(*p_next_floor < elevator_get_current_floor())
@@ -57,7 +57,7 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-                queue_poll_buttons();
+                queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
                 if(!(next_floor == -1))
                 {
@@ -75,7 +75,7 @@ void control_state_machine()
                     break;
                 }
 
-                queue_poll_buttons();
+                queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
                 if(!(elevator_change_floor(next_floor)))
                 {
@@ -92,7 +92,7 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-                queue_poll_buttons();
+                queue_update();
                 
                 queue_clear_floor(elevator_get_current_floor());
                 if(elevator_wait(3))

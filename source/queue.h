@@ -23,14 +23,7 @@ void queue_clear_queue();
  */
 void queue_clear_floor(int floor);
 
-/**
- * @brief Add order to queue corresponding to @p floor in queue correspinging to ordertype @p type.
- * 
- * @param floor The floor the order corresponds to.
- * @param type Type of order.
- * 
- */
-void queue_add_floor(int floor,  OrderType order_type);
+
 
 /**
  * @brief Finds and return next floor based on @p current_floor and @p direction of the elevator.
@@ -43,7 +36,8 @@ void queue_add_floor(int floor,  OrderType order_type);
  */
 int queue_next_in_queue(int current_floor, Direction direction);
 
-void queue_poll_buttons();
+
+void queue_update();
 
 
 void queue_print_queue();

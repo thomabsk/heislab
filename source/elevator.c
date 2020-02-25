@@ -13,17 +13,16 @@ void elevator_calibrate()
 {
     while(current_position.current_floor == -1)
     {
-        if (hardware_read_floor_sensor(0))
-        {
-        	hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        	current_position.current_floor = 0;
-        	printf("CALIBRATION COMPLETED\nCURRENT FLOOR: ");
-	    	printf("%d\n", current_position.current_floor);
-            break;
+        for (int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++){
+            if(hardware_read_floor_sensor(i)){
+                hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+                current_position.current_floor = i;
+                printf("CALIBRATION COMPLETED\nCURRENT FLOOR: ");
+	    	    printf("%d\n", current_position.current_floor);
+                return;
+            }
         }
-        else{
-            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-        }
+        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
     }
 }
 
@@ -116,7 +115,6 @@ int elevator_change_floor(int goal_floor)
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
         }
     }
-
     else if(goal_floor == current_position.current_floor)
     {
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
