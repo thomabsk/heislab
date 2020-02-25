@@ -5,10 +5,21 @@
  */
 #ifndef QUEUE_H
 #define QUEUE_H
-#include "utilities.h"
 #include "hardware.h"
 #include <stdio.h>
 
+
+
+/**
+ * @brief Direction type used in @c queue_next_in_queue 
+ * and in @c queue_is_floor_ordered
+ * 
+ */
+typedef enum {
+    UP,
+    DOWN,
+    NONE,
+} Direction;
 
 /**
  * @brief Clears all orders in the queue.

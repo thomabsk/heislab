@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include "hardware.h"
 #include "timer.h"
-#include "utilities.h"
 
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
