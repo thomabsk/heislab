@@ -81,9 +81,12 @@ int queue_next_in_queue(int current_floor, Direction direction)
             }
         }
 
-        if (m_queue_down[NUMBER_OF_FLOORS -1] == 1) 
-        {       
-            return NUMBER_OF_FLOORS-1;                       //cheking if there are orders downwards in the highest floor.
+        for(int i = NUMBER_OF_FLOORS-1; i >= current_floor; i-- ) 
+        {
+            if (m_queue_down[i] == 1) 
+            {
+                return i;
+            }
         }
     }
 
@@ -97,11 +100,22 @@ int queue_next_in_queue(int current_floor, Direction direction)
             }
         }
 
-        if (m_queue_up[0] == 1) 
+        for(int i = 0; i < current_floor; i++ ) 
         {
-            return 0;                                         //cheking if there are orders upwards in the lowest floor.
+            if (m_queue_up[i] == 1) 
+            {
+                return i;
+            }
         }
-    }    
+
+    }   
+    else if (direction == STILL){
+        for(int i = 0; i < NUMBER_OF_FLOORS; i++){
+            if (m_queue_down[i] == 1 || m_queue_inside[i] == 1 || m_queue_up[i] == 1){
+                return i;
+            }
+        }
+    }
     return -1;
 }
 

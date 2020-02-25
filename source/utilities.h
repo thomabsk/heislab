@@ -26,6 +26,7 @@ typedef enum {
 typedef enum {
     UP,
     DOWN,
+    STILL
 } Direction;
 
 #endif

@@ -1,23 +1,24 @@
 #include "elevator.h"
 
 
-static int current_floor = -1;
+struct CurrentPosition{
+    int current_floor;
+    int above;
+};
+
+static struct CurrentPosition current_position = {-1, 0};
 
 
 void elevator_calibrate()
 {
-    while(current_floor == -1)
+    while(current_position.current_floor == -1)
     {
-        //for(int i = 0, i < NUMBER_OF_FLOORS-1; i++)
-        //{
-
-        //}
         if (hardware_read_floor_sensor(0))
         {
         	hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        	current_floor = 0;
+        	current_position.current_floor = 0;
         	printf("CALIBRATION COMPLETED\nCURRENT FLOOR: ");
-	    	printf("%d\n", current_floor);
+	    	printf("%d\n", current_position.current_floor);
             break;
         }
         else{
@@ -28,7 +29,7 @@ void elevator_calibrate()
 
 int elevator_get_current_floor()
 {
-    return current_floor;
+    return current_position.current_floor;
 }
  
 int elevator_wait(int wait_time)
@@ -95,48 +96,46 @@ int elevator_currently_at_a_floor()
 
 int elevator_change_floor(int goal_floor)
 {
-    static Direction last_dir = UP;
-
     int bool_between_floors = 1;
 
     for(unsigned int f = 0; f<HARDWARE_NUMBER_OF_FLOORS; f++) //Updates the current floor, and checks if between two floors.
     {
         if(hardware_read_floor_sensor(f))
         {
-            current_floor = f;
+            current_position.current_floor = f;
             hardware_command_floor_indicator_on(f);
             bool_between_floors = 0;
         }
     }
-
-    if((goal_floor == current_floor) && (bool_between_floors == 1))
-    {
-        if(last_dir == UP)
-        {
+   
+    if((goal_floor == current_position.current_floor) && (bool_between_floors == 1)){ 
+        if(current_position.above){
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-            return 1;
         }
-        else if(last_dir == DOWN)
-        {
+        else{
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
-            return 1;
-        } 
+        }
     }
-    else if(goal_floor == current_floor)
+
+    else if(goal_floor == current_position.current_floor)
     {
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
         return 0;
     }
-    else if(goal_floor < current_floor)
+    else if(goal_floor < current_position.current_floor)
     {
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-        last_dir = DOWN;
+        if(bool_between_floors == 0){
+            current_position.above = 0;
+        }
         return 1;
     }
-    else if(goal_floor > current_floor)
+    else if(goal_floor > current_position.current_floor)
     {
         hardware_command_movement(HARDWARE_MOVEMENT_UP);
-        last_dir = UP;
+        if(bool_between_floors == 0){
+            current_position.above = 1;
+        }
         return 1;
     }
     return 1;

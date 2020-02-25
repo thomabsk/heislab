@@ -2,20 +2,19 @@
 
 
 static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_direction){
-    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
-    
-    if(*p_next_floor == -1) //If nothing is found in one direction, look in the other
-    {
-        if(*p_travel_direction == UP){
-            *p_travel_direction = DOWN;
-            *p_next_floor = queue_next_in_queue(HARDWARE_NUMBER_OF_FLOORS-1, *p_travel_direction);
-            
-        } 
-        else if(*p_travel_direction == DOWN){
-            *p_travel_direction = UP;
-            *p_next_floor = queue_next_in_queue(0, *p_travel_direction);
 
-        }
+    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
+    if(*p_next_floor == -1){
+        *p_travel_direction = STILL;
+        return;
+    }
+    else if(*p_next_floor < elevator_get_current_floor())
+    {
+        *p_travel_direction = DOWN;
+    }
+    else if(*p_next_floor > elevator_get_current_floor())
+    {
+        *p_travel_direction = UP;
     }
 }
 
@@ -75,20 +74,15 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
+
                 queue_poll_buttons();
-                if(!(next_floor == -1))
+                control_calculate_next_floor(&next_floor, &travel_direction);
+                if(!(elevator_change_floor(next_floor)))
                 {
-                    if(elevator_change_floor(next_floor))
-                    {
-                        control_calculate_next_floor(&next_floor, &travel_direction);
-                    }
-                    else
-                    {
-                       printf("Current state: WAITING\n");
-                       ELEVATOR_STATE = WAITING;
-                    }
+                    printf("Current state: WAITING\n");
+                    ELEVATOR_STATE = WAITING;
                 }
-                control_calculate_next_floor(&next_floor, &travel_direction); // Calculate again if between two floors, and stopping.
+                //control_calculate_next_floor(&next_floor, &travel_direction); // Calculate again if between two floors, and stopping.
                 break;
 
             case WAITING:
