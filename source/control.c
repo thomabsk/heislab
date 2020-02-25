@@ -82,7 +82,6 @@ void control_state_machine()
                     printf("Current state: WAITING\n");
                     ELEVATOR_STATE = WAITING;
                 }
-                //control_calculate_next_floor(&next_floor, &travel_direction); // Calculate again if between two floors, and stopping.
                 break;
 
             case WAITING:
