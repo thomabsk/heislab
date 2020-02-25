@@ -16,7 +16,7 @@ typedef enum {
     ORDER_UP,
     ORDER_DOWN,
     ORDER_INSIDE,
-} order_type;
+} OrderType;
 
 /**
  * @brief Direction type used in @c queue_next_in_queue 
@@ -26,6 +26,6 @@ typedef enum {
 typedef enum {
     UP,
     DOWN,
-} direction;
+} Direction;
 
 #endif

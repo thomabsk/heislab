@@ -36,7 +36,7 @@ void control_state_machine()
 {
     state ELEVATOR_STATE = INITIALIZE;
     int next_floor = 0;
-    direction current_direction = UP;
+    Direction current_direction = UP;
 
     while(1){
         switch(ELEVATOR_STATE)
