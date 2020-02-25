@@ -1,7 +1,7 @@
 #include "elevator.h"
 
 
-struct CurrentPosition{
+static struct CurrentPosition{
     int current_floor;
     int above;
 };

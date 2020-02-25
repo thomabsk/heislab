@@ -1,12 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
-#include "hardware.h"
 #include "control.h"
-#include "timer.h"
-#include "elevator.h"
-#include "queue.h"
-#include "utilities.h"
+
 
 
 

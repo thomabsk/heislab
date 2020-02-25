@@ -11,8 +11,7 @@
 
 
 /**
- * @brief Direction type used in @c queue_next_in_queue 
- * and in @c queue_is_floor_ordered
+ * @brief Direction type used in @c queue_next_in_queue , @c control_state_machine and @c control_calculate_next_floor
  * 
  */
 typedef enum {

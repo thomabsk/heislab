@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief The control unit containing the finite state machine for the eleator
+ *
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "elevator.h"
@@ -18,7 +25,7 @@ typedef enum{
     IDLE,
     TAKING_ORDER,
     WAITING
-} state;
+} State;
 
 
 

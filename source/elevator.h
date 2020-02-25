@@ -14,12 +14,12 @@
 
 
 /**
- * @brief Calibrates the hardware, by making it go to the first floor.
+ * @brief Calibrates the hardware, makes it go the the first floor currently beneath the elevator.
 */
 void elevator_calibrate();
 
 /**
- * @brief Returns the current floor.
+ * @brief Get function for the current floor.
  * 
  * @return Returns the current floor.
 */
@@ -32,7 +32,7 @@ int elevator_get_current_floor();
  * 
  * @return Returns 1 if the elevator is still moving, 0 if stopped at desired floor.
  * 
- * @warning @p goal_floor has to be a valid floor.
+ * @warning @p goal_floor has to be a valid floor, otherwise the elevator can go out of bounds.
 */
 int elevator_change_floor(int goal_floor);
 
@@ -57,6 +57,11 @@ int elevator_wait(int wait_time);
  */
 int elevator_currently_at_a_floor();
 
+/**
+ * @brief Checks if the hardware receives input from the stop button
+ * 
+ * @return Returns 1 if the stop button is currently active, 0 otherwise.
+ */
 int elevator_check_emergency_stop();
 
 #endif

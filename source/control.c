@@ -20,9 +20,9 @@ static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_
 
 void control_state_machine()
 {
-    state ELEVATOR_STATE = INITIALIZE;
+    State ELEVATOR_STATE = INITIALIZE;
     int next_floor = 0;
-    Direction travel_direction = UP;
+    Direction travel_direction = NONE;
 
     while(1){
         switch(ELEVATOR_STATE)
