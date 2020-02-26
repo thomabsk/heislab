@@ -46,9 +46,13 @@ void queue_clear_floor(int floor);
  */
 int queue_next_in_queue(int current_floor, Direction direction);
 
-
+/**
+ * @brief Polls all the buttons, adds to queue, and turns right lights on.
+ * 
+ */
 void queue_update();
 
+int queue_is_floor_ordered(int floor);
 
 void queue_print_queue();
 

@@ -100,6 +100,11 @@ int queue_next_in_queue(int current_floor, Direction direction)
 }
 
 
+int queue_is_floor_ordered(int floor) {
+       return (m_queue_up[floor] || m_queue_inside[floor] || m_queue_down[floor]);
+}
+
+
 void queue_print_queue() {
     
     for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {

@@ -92,13 +92,19 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
+                queue_clear_floor(elevator_get_current_floor());
                 queue_update();
                 
-                queue_clear_floor(elevator_get_current_floor());
+                //queue_print_queue();
+                
+                
                 if(elevator_wait(3))
                 {
                     printf("Current state: IDLE\n");
                     ELEVATOR_STATE = IDLE;
+                }
+                if(queue_is_floor_ordered(elevator_get_current_floor())){
+                    timer_reset();
                 }
                 break;
         }
