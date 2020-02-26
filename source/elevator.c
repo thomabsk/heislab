@@ -1,7 +1,6 @@
 #include "elevator.h"
 
-
-static struct CurrentPosition{
+struct CurrentPosition{
     int current_floor;
     int above;
 };
@@ -13,6 +12,9 @@ void elevator_calibrate()
 {
     while(current_position.current_floor == -1)
     {
+        if(hardware_read_stop_signal()){
+            elevator_emergency_stop();
+        }
         for (int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++){
             if(hardware_read_floor_sensor(i)){
                 hardware_command_movement(HARDWARE_MOVEMENT_STOP);
