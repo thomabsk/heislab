@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage{fancyhdr}
+
+\usepackage{biblatex}
+\addbibresource{ref.bib}
+
+
+\renewcommand{\figurename}{Figur}
+\renewcommand{\tablename}{Tabell}
+
+
+\begin{document}
+\pagenumbering{gobble}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{center}
+
+\textsc{\LARGE NTNU}\\[1.5cm] 
+\textsc{\Large TTK4235}\\[0.5cm]
+\textsc{\large Labgruppe 30}\\[0.5cm]
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Rapport heislab}\\[0.4cm]
+\HRule \\[1.5cm]
+ 
+\begin{minipage}{0.6\textwidth}
+\begin{flushleft} \large
+\emph{Authors:}\\
+Thomas \textsc{Borge Skøien} \\Vegard \textsc{Haraldstad} \\
+\end{flushleft}
+\end{minipage}
+~
+\\[2cm]
+
+{\large \today}\\[2cm] 
+
+\includegraphics[width=50mm]{img/ntnu_logo.png}
+
+\end{center}
+\newpage
+\cfoot{\normalsize\thepage}
+\pagenumbering{roman}
+
+\section*{Introduksjon}
+
+\tableofcontents
+
+\newpage
+\nocite{*}
+\cfoot{\normalsize\thepage~}
+\pagenumbering{arabic}
+\section{Overordnet arkitektur}
+\section{Moduldesign}
+\subsection{Control}
+\subsection{Queue}  
+Kømodulen vår ble designet med mål om å være enkel. Selve køen er implementert som tre arrays av ints, en for bestillinger opp, en for ned og en for bestillinger fra heisvognen, hvor hvert element i et av arrayene representerer hvovidt vi har en type bestilling, og i hvilken etasje, eller ikke. 
+
+\subsection{Elevator}
+\subsection{Timer}
+\section{Testing}
+\section{Diskusjon}
+\end{document}
