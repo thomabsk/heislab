@@ -25,7 +25,7 @@ static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_
     {
         *p_travel_direction = UP;
     }
-    else if(*p_next_floor == elevator_get_current_floor()){
+    else if((*p_next_floor == elevator_get_current_floor()) && !elevator_currently_at_a_floor()){
         if(elevator_get_above()){
             *p_travel_direction = DOWN;
         }
@@ -89,20 +89,20 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-
+               
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
+                printf("Current direction: %d\n", travel_direction);
                 if(!(next_floor == -1))
                 {
                     printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
+                    break;
                 }
                 //queue_clear_floor(elevator_get_current_floor());
                 break;
 
             case TAKING_ORDER:
-                printf("Travel Direction : %d\n", travel_direction);
-                printf("Next floor: %d\n", next_floor);
                 if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
@@ -112,13 +112,12 @@ void control_state_machine()
 
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
-                if(next_floor == -1){
-                    ELEVATOR_STATE = IDLE;
-                }
+                printf("Current direction: %d\n", travel_direction);
                 if(!(elevator_change_floor(next_floor)))
                 {
                     printf("Current state: WAITING\n");
                     ELEVATOR_STATE = WAITING;
+                    break;
                 }
                 break;
 
@@ -136,6 +135,7 @@ void control_state_machine()
                 {
                     printf("Current state: IDLE\n");
                     ELEVATOR_STATE = IDLE;
+                    break;
                 }
                 break;
         }

@@ -69,7 +69,10 @@ int queue_next_in_queue(int current_floor, Direction direction, int bool_above)
             }
         }
         if(!bool_above){
-            return m_queue_up[current_floor] || m_queue_inside[current_floor];
+            if(m_queue_up[current_floor] || m_queue_inside[current_floor] || m_queue_down[current_floor]){
+                return current_floor;
+            }
+                
         }
     }
 
@@ -77,21 +80,23 @@ int queue_next_in_queue(int current_floor, Direction direction, int bool_above)
     {
         for(int i = current_floor - 1; i >= 0; i-- ) 
         {
-            if (m_queue_down[i] == 1 || m_queue_inside[i] == 1) 
-            {
-                return i;
-            }
+           if (m_queue_down[i] == 1 || m_queue_inside[i] == 1) 
+           {
+               return i;
+           }
         }
 
         for(int i = 0; i < current_floor; i++ ) 
         {
-            if (m_queue_up[i] == 1) 
-            {
-                return i;
-            }
+           if (m_queue_up[i] == 1) 
+           {
+               return i;
+           }
         }
         if(bool_above){
-            return m_queue_down[current_floor] || m_queue_inside[current_floor];
+           if(m_queue_down[current_floor] || m_queue_inside[current_floor] || m_queue_up[current_floor]){
+               return current_floor;
+           }
         }
     }
 
