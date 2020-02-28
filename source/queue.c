@@ -98,22 +98,3 @@ int queue_next_in_queue(int current_floor, Direction direction)
     }
     return -1;
 }
-
-
-int queue_is_floor_ordered(int floor) {
-       return (m_queue_up[floor] || m_queue_inside[floor] || m_queue_down[floor]);
-}
-
-
-void queue_print_queue() {
-    
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_up floor %d = %d\n", i+1, m_queue_up[i]);
-    }
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_down floor %d = %d\n", i+1, m_queue_down[i]);
-    }
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_inside floor %d = %d\n", i+1, m_queue_inside[i]);
-    }
-}

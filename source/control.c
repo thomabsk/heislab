@@ -1,6 +1,15 @@
 #include "control.h"
 
 
+
+static void sigint_handler(int sig){
+    (void)(sig);
+    printf("Terminating elevator\n");
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    exit(0);
+}
+
+
 static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_direction){
 
     *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
@@ -17,6 +26,23 @@ static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_
         *p_travel_direction = UP;
     }
 }
+
+int main()
+{
+    int error = hardware_init();
+    if(error != 0){
+        fprintf(stderr, "Unable to initialize hardware\n");
+        exit(1);
+    }
+
+    signal(SIGINT, sigint_handler);
+
+    printf("=== FUNCTIONING ELEVATOR ===\n");
+    printf("Use the elevator as normal\n");
+    control_state_machine();
+    return 0;
+}
+
 
 void control_state_machine()
 {
@@ -92,19 +118,12 @@ void control_state_machine()
                     ELEVATOR_STATE = STOP;
                     break;
                 }
-                queue_clear_floor(elevator_get_current_floor());
                 queue_update();
-                
-                //queue_print_queue();
-                
-                
+                queue_clear_floor(elevator_get_current_floor());
                 if(elevator_wait(3))
                 {
                     printf("Current state: IDLE\n");
                     ELEVATOR_STATE = IDLE;
-                }
-                if(queue_is_floor_ordered(elevator_get_current_floor())){
-                    timer_reset();
                 }
                 break;
         }
