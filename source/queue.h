@@ -33,23 +33,23 @@ void queue_clear_queue();
  */
 void queue_clear_floor(int floor);
 
-
-
 /**
- * @brief Finds and return next floor based on @p current_floor and @p direction of the elevator.
+ * @brief Finds and returns next floor based on @p current_floor and @p direction of the elevator.
  * 
  * @param current_floor The current floor of the elevator.
  * @param direction The direction of the elevator.
  * 
  * @return Returns an int corresponding to next floor in queue. 
- * Return -1 if there are no more orders in the given @p direction.
+ * Return -1 if there are no more orders the elevator should go to in the given @p direction.
  */
-int queue_next_in_queue(int current_floor, Direction direction);
+int queue_next_in_queue(int current_floor, Direction direction, int bool_above);
 
 /**
- * @brief Polls all the buttons, adds to queue, and turns the right lights on.
+ * @brief Polls all the order buttons, adds them to queue, and turns the right lights on.
  * 
  */
 void queue_update();
+
+void queue_print_queue();
 
 #endif

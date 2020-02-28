@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief The control unit containing the finite state machine for the eleator
+ * @brief The control unit containing the finite state machine for the elevator
  *
  */
 
@@ -27,9 +27,6 @@ typedef enum{
     TAKING_ORDER,
     WAITING
 } State;
-
-
-
 
 /**
  * @brief The state machine used in controlling the elevator

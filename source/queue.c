@@ -49,7 +49,7 @@ void queue_clear_floor(int floor)
     hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
 }
 
-int queue_next_in_queue(int current_floor, Direction direction) 
+int queue_next_in_queue(int current_floor, Direction direction, int bool_above) 
 {
     if (direction == UP) 
     {
@@ -67,6 +67,9 @@ int queue_next_in_queue(int current_floor, Direction direction)
             {
                 return i;
             }
+        }
+        if(!bool_above){
+            return m_queue_up[current_floor] || m_queue_inside[current_floor];
         }
     }
 
@@ -87,14 +90,33 @@ int queue_next_in_queue(int current_floor, Direction direction)
                 return i;
             }
         }
+        if(bool_above){
+            return m_queue_down[current_floor] || m_queue_inside[current_floor];
+        }
+    }
 
-    }   
-    else if (direction == NONE){
-        for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++){
-            if (m_queue_down[i] == 1 || m_queue_inside[i] == 1 || m_queue_up[i] == 1){
+    else if (direction == NONE)
+    {
+        for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++)
+        {
+            if (m_queue_down[i] == 1 || m_queue_inside[i] == 1 || m_queue_up[i] == 1)
+            {
                 return i;
             }
         }
     }
     return -1;
+}
+
+void queue_print_queue() {
+    
+    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
+        printf("m_queue_up floor %d = %d\n", i+1, m_queue_up[i]);
+    }
+    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
+        printf("m_queue_down floor %d = %d\n", i+1, m_queue_down[i]);
+    }
+    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
+        printf("m_queue_inside floor %d = %d\n", i+1, m_queue_inside[i]);
+    }
 }

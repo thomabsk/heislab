@@ -14,7 +14,7 @@
 
 
 /**
- * @brief Calibrates the hardware, makes it go the the first floor currently beneath the elevator.
+ * @brief Calibrates the position of the elevator, makes it go to the first floor currently beneath the elevator.
 */
 void elevator_calibrate();
 
@@ -63,5 +63,8 @@ int elevator_currently_at_a_floor();
  * @return Returns 1 if the stop button is currently active, 0 otherwise.
  */
 int elevator_check_emergency_stop();
+
+
+int elevator_get_above();
 
 #endif

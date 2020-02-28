@@ -18,6 +18,7 @@ void elevator_calibrate()
         for (int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++){
             if(hardware_read_floor_sensor(i)){
                 hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+                hardware_command_floor_indicator_on(i);
                 current_position.current_floor = i;
                 printf("CALIBRATION COMPLETED\nCURRENT FLOOR: ");
 	    	    printf("%d\n", current_position.current_floor);
@@ -139,4 +140,8 @@ int elevator_change_floor(int goal_floor)
         return 1;
     }
     return 1;
+}
+
+int elevator_get_above(){
+    return current_position.above;
 }

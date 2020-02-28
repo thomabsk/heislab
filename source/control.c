@@ -12,7 +12,7 @@ static void sigint_handler(int sig){
 
 static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_direction){
 
-    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction);
+    *p_next_floor = queue_next_in_queue(elevator_get_current_floor(), *p_travel_direction, elevator_get_above());
     if(*p_next_floor == -1){
         *p_travel_direction = NONE;
         return;
@@ -24,6 +24,14 @@ static void control_calculate_next_floor(int *p_next_floor, Direction *p_travel_
     else if(*p_next_floor > elevator_get_current_floor())
     {
         *p_travel_direction = UP;
+    }
+    else if(*p_next_floor == elevator_get_current_floor()){
+        if(elevator_get_above()){
+            *p_travel_direction = DOWN;
+        }
+        else{
+            *p_travel_direction = UP;
+        }
     }
 }
 
@@ -54,17 +62,16 @@ void control_state_machine()
         switch(ELEVATOR_STATE)
         {
             case INITIALIZE:
-
-                elevator_calibrate();
                 queue_clear_queue();
+                elevator_calibrate();
                 ELEVATOR_STATE = IDLE;
                 printf("Current state: IDLE\n");
                 break;
 
             case STOP:
-
                 queue_clear_queue();
                 elevator_emergency_stop();
+                travel_direction = NONE;
                 if(elevator_currently_at_a_floor())
                 {
                     printf("Current state: WAITING\n");
@@ -76,13 +83,13 @@ void control_state_machine()
                 break;
                 
             case IDLE:
-                
                 if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
+
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
                 if(!(next_floor == -1))
@@ -90,10 +97,12 @@ void control_state_machine()
                     printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
                 }
+                //queue_clear_floor(elevator_get_current_floor());
                 break;
 
             case TAKING_ORDER:
-                
+                printf("Travel Direction : %d\n", travel_direction);
+                printf("Next floor: %d\n", next_floor);
                 if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
@@ -103,6 +112,9 @@ void control_state_machine()
 
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
+                if(next_floor == -1){
+                    ELEVATOR_STATE = IDLE;
+                }
                 if(!(elevator_change_floor(next_floor)))
                 {
                     printf("Current state: WAITING\n");
@@ -111,13 +123,13 @@ void control_state_machine()
                 break;
 
             case WAITING:
-                
                 if(elevator_check_emergency_stop())
                 {
                     printf("Current state: STOP\n");
                     ELEVATOR_STATE = STOP;
                     break;
                 }
+
                 queue_update();
                 queue_clear_floor(elevator_get_current_floor());
                 if(elevator_wait(3))

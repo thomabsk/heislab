@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "timer.h"
 
 static time_t timer_start = 0;
