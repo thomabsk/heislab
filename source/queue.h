@@ -50,6 +50,4 @@ int queue_next_in_queue(int current_floor, Direction direction, int bool_above);
  */
 void queue_update();
 
-void queue_print_queue();
-
 #endif

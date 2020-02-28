@@ -64,7 +64,13 @@ int elevator_currently_at_a_floor();
  */
 int elevator_check_emergency_stop();
 
-
+/**
+ *@brief Get function for checking if the elevator is below or above the current floor.
+ *
+ * @return Returns 1 if the elevator is above the current floor, 0 if below.
+ * 
+ * @warning If the elevator is currently at a floor, the above value is undefined. 
+*/
 int elevator_get_above();
 
 #endif

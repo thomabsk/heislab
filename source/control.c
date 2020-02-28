@@ -92,14 +92,12 @@ void control_state_machine()
                
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
-                printf("Current direction: %d\n", travel_direction);
                 if(!(next_floor == -1))
                 {
                     printf("Current state: TAKING_ORDER\n");
                     ELEVATOR_STATE = TAKING_ORDER;
                     break;
                 }
-                //queue_clear_floor(elevator_get_current_floor());
                 break;
 
             case TAKING_ORDER:

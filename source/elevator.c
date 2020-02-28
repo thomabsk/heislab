@@ -33,6 +33,10 @@ int elevator_get_current_floor()
 {
     return current_position.current_floor;
 }
+
+int elevator_get_above(){
+    return current_position.above;
+}
  
 int elevator_wait(int wait_time)
 {
@@ -142,6 +146,3 @@ int elevator_change_floor(int goal_floor)
     return 1;
 }
 
-int elevator_get_above(){
-    return current_position.above;
-}

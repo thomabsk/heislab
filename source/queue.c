@@ -112,16 +112,3 @@ int queue_next_in_queue(int current_floor, Direction direction, int bool_above)
     }
     return -1;
 }
-
-void queue_print_queue() {
-    
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_up floor %d = %d\n", i+1, m_queue_up[i]);
-    }
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_down floor %d = %d\n", i+1, m_queue_down[i]);
-    }
-    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
-        printf("m_queue_inside floor %d = %d\n", i+1, m_queue_inside[i]);
-    }
-}
