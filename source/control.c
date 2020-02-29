@@ -110,7 +110,6 @@ void control_state_machine()
 
                 queue_update();
                 control_calculate_next_floor(&next_floor, &travel_direction);
-                printf("Current direction: %d\n", travel_direction);
                 if(!(elevator_change_floor(next_floor)))
                 {
                     printf("Current state: WAITING\n");
