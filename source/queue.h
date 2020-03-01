@@ -38,7 +38,8 @@ void queue_clear_floor(int floor);
  * 
  * @param current_floor The current floor of the elevator.
  * @param direction The direction of the elevator.
- * 
+ * @param bool_above The bool representing if elevator is above or below the current_floor.
+ *
  * @return Returns an int corresponding to next floor in queue. 
  * Return -1 if there are no more orders the elevator should go to in the given @p direction.
  */
