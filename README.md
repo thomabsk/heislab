@@ -1,2 +1,2 @@
 # heislab
-PRØVER DU Å KOKE HÆ
+Heislab i TTK4235
